@@ -17,13 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from IIapp import views
+from IIapp.views import MainView, login_view, logout_view, page_not_found_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.main_view, name='main'),
-    path('login/', views.login_view, name='login'),
-    path('logout/', views.logout_view, name='logout'),
+    path('', MainView.as_view()),
+    # path('', views.main_view, name='main'),
+    path('login/', login_view, name='login'),
+    path('logout/', logout_view, name='logout'),
 ]
 
-handler404 = views.page_not_found_view
+handler404 = page_not_found_view

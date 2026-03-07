@@ -1,6 +1,31 @@
 from django.shortcuts import render
 
+import requests
+import json
 from loguru import logger
+from django.views import View
+
+
+class MainView(View):
+    def get (self, request):
+        response = requests.get('http://localhost/1S_TEST/hs/employees')
+        content_empl = {}
+        # Проверка статус-кода
+        if response.status_code == 200:
+        # Вывод результата
+            resp_dict = response.json()
+            print(resp_dict)
+            content_empl = resp_dict
+        else:
+            print(f"Ошибка: {response.status_code}")
+
+        template_name = 'IIapp/index.html'    
+
+        context = {'title': 'Главная страница',
+                'content_empl': content_empl,                 
+                }
+        return render(request, template_name=template_name, context=context)
+    
 
 def login_view(request):
     logger.add("log/crm.log")
@@ -38,14 +63,3 @@ def logout_view(request):
 def page_not_found_view(request, exception):
     return render(request, 'crm/404.html', status=404)
 
-
-def main_view(request):
-    # if not request.user.is_authenticated:
-    #     return redirect(reverse(login_view))
-
-    template_name = 'IIapp/index.html'    
-
-    context = {'title': 'Главная страница',
-                                 
-               }
-    return render(request, template_name=template_name, context=context)

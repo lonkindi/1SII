@@ -2,3 +2,4 @@
 /IIconnector/IIapp/migrations/
 /IIconnector/db.sqlite3
 /.venv/
+/.env
