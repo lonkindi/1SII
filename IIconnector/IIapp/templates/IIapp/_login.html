@@ -1,0 +1,24 @@
+{% extends "IIapp/_base.html" %}
+{% load static %}
+    {% block Content %}
+    <div class="content">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="card ">
+              <div class="card-header ">
+                Вход в систему
+              </div>
+              <div class="card-body ">                
+                <form id="LoginForm" method="post">
+                    <div class="mb-2">
+                      {%csrf_token%}
+                        {{form}}    
+                        <button type="submit" class="btn btn-primary">Ок</button>
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>      
+    {% endblock %}

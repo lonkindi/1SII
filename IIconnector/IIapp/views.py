@@ -1,58 +1,67 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 
 import requests
 import json
 from loguru import logger
+from django.http import HttpResponseNotFound, HttpResponse
+from django.contrib.auth import authenticate, login, logout
 from django.views import View
+from users.forms import LoginForm
 
 
 class MainView(View):
-    def get (self, request):
-        response = requests.get('http://localhost/1S_TEST/hs/employees')
+    def get(self, request):
+        response = requests.get("http://localhost/1S_TEST/hs/employees")
         content_empl = {}
         # Проверка статус-кода
         if response.status_code == 200:
-        # Вывод результата
+            # Вывод результата
             resp_dict = response.json()
             print(resp_dict)
             content_empl = resp_dict
         else:
             print(f"Ошибка: {response.status_code}")
 
-        template_name = 'IIapp/index.html'    
-
-        context = {'title': 'Главная страница',
-                'content_empl': content_empl,                 
-                }
+        template_name = "IIapp/_main.html"
+        org_name = "ООО «Петропалыч»"
+        base_name = "1С:Бухгалтерия (ПРОФ)"
+        context = {
+            "title": "Главная страница",
+            "content_empl": content_empl,
+            "org_name": org_name,
+            "base_name": base_name,
+        }
         return render(request, template_name=template_name, context=context)
-    
+
 
 def login_view(request):
-    logger.add("log/crm.log")
+    logger.add("log/connector.log")
     if request.user.is_authenticated:
-        logger.info(f'Авторизанный пользователь {request.user} на странице авторизации')
-        return redirect(reverse(main_view))
-    if request.method == 'POST':
-        username = request.POST.get('user_login', None)
-        password = request.POST.get('user_password', None)
+        logger.info(f"Авторизанный пользователь {request.user} на странице входа")
+        return redirect("main")
+    if request.method == "POST":
+        username = request.POST.get("user_login", None)
+        password = request.POST.get("user_password", None)
         user = authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
                 login(request, user)
-                logger.info(f'Успешная авторизация пользователя {user}')
-                return redirect(main_view)
+                logger.info(f"Успешная авторизация пользователя {user}")
+                return redirect("main")
             else:
-                logger.warning(f'Неудачная попытка авторизация пользователя {username} с паролем {password}')
+                logger.warning(f"Пользователь {username} не активирован")
         else:
-            return HttpResponse('Некорректный логин или пароль!')
-    template_name = 'crm/login.html'
+            logger.warning(
+                f"Неудачная попытка авторизация пользователя {username} с паролем {password}"
+                )
+            return HttpResponse("Некорректный логин или пароль!")
+    template_name = "IIapp/_login.html"
     form = LoginForm()
-    context = {'form': form,
-               'information': 'Для работы в системе необходимо авторизоваться',
-               }
+    context = {
+        "form": form,
+        "title": "Вход в систему",
+    }
     return render(request, template_name=template_name, context=context)
-    # context = {'title': 'login_title', 'main_body': 'WELCOMMEN!'}
-    # return render(request, template_name, context=context)
 
 
 def logout_view(request):
@@ -61,5 +70,4 @@ def logout_view(request):
 
 
 def page_not_found_view(request, exception):
-    return render(request, 'crm/404.html', status=404)
-
+    return render(request, "IIapp/404.html", status=404)

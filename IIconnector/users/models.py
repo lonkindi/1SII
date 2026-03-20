@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+
 class CustomUserManager(BaseUserManager):
     """
     Менеджер пользователей
@@ -51,7 +52,9 @@ class CustomUser(AbstractUser):
     phone = models.CharField(unique=True, max_length=15, editable=True, verbose_name='Телефон')   
 
     USERNAME_FIELD = 'phone'
-    class Meta:
-        verbose_name = 'Пользователь'
-        verbose_name_plural = "Список пользователей"
-        ordering = ('email',)
+
+
+class Meta:
+    verbose_name = 'Пользователь'
+    verbose_name_plural = "Список пользователей"
+    ordering = ('email',)

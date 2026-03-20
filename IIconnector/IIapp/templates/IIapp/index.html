@@ -1,5 +1,5 @@
 <!DOCTYPE html>{% load static %}
-<html lang="en">
+<html lang="ru">
 
 <head>
   <meta charset="utf-8" />
@@ -10,8 +10,13 @@
     Black Dashboard by Creative Tim
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-  <!--     Fonts and icons     -->
-  <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
+  <!--     Fonts and icons   
+  <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />  -->
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+  
   <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <!-- Nucleo Icons -->
   <link href={% static "IIapp/assets/css/nucleo-icons.css" %} rel="stylesheet" />
@@ -41,7 +46,7 @@
           <li class="active ">
             <a href="./dashboard.html">
               <i class="tim-icons icon-chart-pie-36"></i>
-              <p>Dashboard</p>
+              <p>Панель управления</p>
             </a>
           </li>
           <li>
@@ -593,7 +598,7 @@
           <i class="fa fa-cog fa-2x"> </i>
         </a>
         <ul class="dropdown-menu">
-          <li class="header-title"> Sidebar Background</li>
+          <li class="header-title"> Цвет боковой панели</li>
           <li class="adjustments-line">
             <a href="javascript:void(0)" class="switch-trigger background-color">
               <div class="badge-colors text-center">
@@ -605,25 +610,11 @@
             </a>
           </li>
           <li class="adjustments-line text-center color-change">
-            <span class="color-label">LIGHT MODE</span>
+            <span class="color-label">СВЕТЛЫЙ РЕЖИМ</span>
             <span class="badge light-badge mr-2"></span>
             <span class="badge dark-badge ml-2"></span>
-            <span class="color-label">DARK MODE</span>
-          </li>
-          <li class="button-container">
-            <a href="https://www.creative-tim.com/product/black-dashboard" target="_blank" class="btn btn-primary btn-block btn-round">Download Now</a>
-            <a href="https://demos.creative-tim.com/black-dashboard/docs/1.0/getting-started/introduction.html" target="_blank" class="btn btn-default btn-block btn-round">
-              Documentation
-            </a>
-          </li>
-          <li class="header-title">Thank you for 95 shares!</li>
-          <li class="button-container text-center">
-            <button id="twitter" class="btn btn-round btn-info"><i class="fab fa-twitter"></i> &middot; 45</button>
-            <button id="facebook" class="btn btn-round btn-info"><i class="fab fa-facebook-f"></i> &middot; 50</button>
-            <br>
-            <br>
-            <a class="github-button" href="https://github.com/creativetimofficial/black-dashboard" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star ntkme/github-buttons on GitHub">Star</a>
-          </li>
+            <span class="color-label">ТЁМНЫЙ РЕЖИМ</span>
+          </li>         
         </ul>
       </div>
     </div>
