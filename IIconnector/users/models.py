@@ -49,7 +49,7 @@ class CustomUser(AbstractUser):
     REQUIRED_FIELDS = ['email']
     objects = CustomUserManager()
     email = models.EmailField(_('email address'), unique=True)
-    phone = models.CharField(unique=True, max_length=15, editable=True, verbose_name='Телефон')   
+    phone = models.CharField(unique=True, max_length=15, editable=True, verbose_name='Телефон')
 
     USERNAME_FIELD = 'phone'
 
