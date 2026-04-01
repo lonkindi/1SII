@@ -1,18 +1,21 @@
+import os
 import requests
+from dotenv import load_dotenv
 
 load_dotenv()
+
 
 def get_access():
     url = "https://ngw.devices.sberbank.ru:9443/api/v2/oauth"
 
-    payload={
-    'scope': 'GIGACHAT_API_PERS'
+    payload = {
+        'scope': 'GIGACHAT_API_PERS'
     }
     headers = {
-    'Content-Type': 'application/x-www-form-urlencoded',
-    'Accept': 'application/json',
-    'RqUID': 'f5ded670-56ff-4432-bfbd-7f366f11c443',
-    'Authorization': f"Basic {os.getenv('GIGA_KEY')}"
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json',
+        'RqUID': 'f5ded670-56ff-4432-bfbd-7f366f11c443',
+        'Authorization': f"Basic {os.getenv('GIGA_KEY')}"
     }
 
     response = requests.request("POST", url, headers=headers, data=payload)
@@ -25,11 +28,11 @@ def get_access():
 def send_promt(promt):
     url = "https://gigachat.devices.sberbank.ru/api/v1/models"
 
-    payload={promt}
+    payload = {promt}
     
     headers = {
-    'Accept': 'application/json',
-    'Authorization': f'Bearer {get_access}'
+        'Accept': 'application/json',
+        'Authorization': f'Bearer {get_access}'
     }
 
     response = requests.request("GET", url, headers=headers, data=payload)

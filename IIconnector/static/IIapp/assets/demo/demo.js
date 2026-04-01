@@ -86,7 +86,7 @@ demo = {
       type: 'line',
       responsive: true,
       data: {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        labels: ["Janu", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Deck"],
         datasets: [{
           label: "Active Users",
           borderColor: "#f96332",
@@ -348,7 +348,7 @@ demo = {
         }]
       }
     };
-
+    
     var ctx = document.getElementById("chartLinePurple").getContext("2d");
 
     var gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
@@ -358,7 +358,7 @@ demo = {
     gradientStroke.addColorStop(0, 'rgba(119,52,169,0)'); //purple colors
 
     var data = {
-      labels: ['JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
+      labels: ['JUL', 'AUG', 'SEP', 'OCT', 'NOV'],
       datasets: [{
         label: "Data",
         fill: true,
@@ -374,7 +374,7 @@ demo = {
         pointHoverRadius: 4,
         pointHoverBorderWidth: 15,
         pointRadius: 4,
-        data: [80, 100, 70, 80, 120, 80],
+        data: [90, 27, 60, 12, 80],
       }]
     };
 
@@ -422,12 +422,15 @@ demo = {
     });
 
 
+    //const chartLabels = JSON.parse(document.getElementById('labels-data').textContent);
+    //const chartData = JSON.parse(document.getElementById('data-data').textContent);
 
-    var chart_labels = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
-    var chart_data = [100, 70, 90, 70, 85, 60, 75, 60, 90, 80, 110, 100];
+    var chart_labels = JSON.parse(document.getElementById('labels-data').textContent);
+    var chart_data = JSON.parse(document.getElementById('data-data').textContent);
+    var chart_data_RS = JSON.parse(document.getElementById('data-data-RS').textContent);
+    var chart_data_Delta = JSON.parse(document.getElementById('data-data-Delta').textContent);
 
-
-    var ctx = document.getElementById("chartBig1").getContext('2d');
+    var ctx = document.getElementById("chartFOT").getContext('2d');
 
     var gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
 
@@ -439,7 +442,7 @@ demo = {
       data: {
         labels: chart_labels,
         datasets: [{
-          label: "My First dataset",
+          label: "Средняя зарплата по предприятию",
           fill: true,
           backgroundColor: gradientStroke,
           borderColor: '#d346b1',
@@ -461,21 +464,24 @@ demo = {
     var myChartData = new Chart(ctx, config);
     $("#0").click(function() {
       var data = myChartData.config.data;
+      data.datasets[0].label = "Средняя зарплата по предприятию",
       data.datasets[0].data = chart_data;
       data.labels = chart_labels;
       myChartData.update();
     });
     $("#1").click(function() {
-      var chart_data = [80, 120, 105, 110, 95, 105, 90, 100, 80, 95, 70, 120];
+      var chart_data = chart_data_RS;
       var data = myChartData.config.data;
+      data.datasets[0].label = "Средняя зарплата по данным Росстата",
       data.datasets[0].data = chart_data;
       data.labels = chart_labels;
       myChartData.update();
     });
 
     $("#2").click(function() {
-      var chart_data = [60, 80, 65, 130, 80, 105, 90, 130, 70, 115, 60, 130];
+      var chart_data = chart_data_Delta;
       var data = myChartData.config.data;
+      data.datasets[0].label = "Разница между ЗП и данными Росстата",
       data.datasets[0].data = chart_data;
       data.labels = chart_labels;
       myChartData.update();
@@ -498,7 +504,7 @@ demo = {
         display: false
       },
       data: {
-        labels: ['USA', 'GER', 'AUS', 'UK', 'RO', 'BR'],
+        labels: ['Пендосы', 'Фрицы', 'AUS', 'UK', 'RO', 'BR'],
         datasets: [{
           label: "Countries",
           fill: true,

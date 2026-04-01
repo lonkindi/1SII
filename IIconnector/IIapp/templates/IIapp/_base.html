@@ -38,6 +38,10 @@
 	    {% block footer %}
 	    {% endblock %}
     </div>
+      <div id="labels-data" style="display:none;">{{ labels|safe }}</div>
+      <div id="data-data" style="display:none;">{{ data|safe }}</div>
+      <div id="data-data-RS" style="display:none;">{{ data_RS|safe }}</div>
+      <div id="data-data-Delta" style="display:none;">{{ data_Delta|safe }}</div>
   </div>
     <div class="fixed-plugin">
       <div class="dropdown show-dropdown">
@@ -191,6 +195,46 @@
         });
       });
     </script>
+  <script>
+  // Получаем данные из контекста Django
+  var labels = {{ labels|safe }};
+  var data = {{ data|safe }};
+
+  var ctx = document.getElementById("chartLinePurple").getContext("2d");
+
+  var gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
+  gradientStroke.addColorStop(1, 'rgba(72,72,176,0.2)');
+  gradientStroke.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+  gradientStroke.addColorStop(0, 'rgba(119,52,169,0)');
+
+  var chartData = {
+    labels: labels,
+    datasets: [{
+      label: "Data",
+      fill: true,
+      backgroundColor: gradientStroke,
+      borderColor: '#d048b6',
+      borderWidth: 2,
+      data: data,
+      // остальные параметры можно оставить как в вашем примере
+      borderDash: [],
+      borderDashOffset: 0.0,
+      pointBackgroundColor: '#d048b6',
+      pointBorderColor: 'rgba(255,255,255,0)',
+      pointHoverBackgroundColor: '#d048b6',
+      pointBorderWidth: 20,
+      pointHoverRadius: 4,
+      pointHoverBorderWidth: 15,
+      pointRadius: 4,
+    }]
+  };
+
+  var myChart = new Chart(ctx, {
+    type: 'line',
+    data: chartData,
+    options: gradientChartOptionsConfigurationWithTooltipPurple // убедитесь, что эта переменная определена
+  });
+</script>
     <script>
       $(document).ready(function() {
         // Javascript method's body can be found in assets/js/demos.js
@@ -198,6 +242,9 @@
 
       });
     </script>
+    <script>
+  // Получаем данные из контекста Django 
+</script>
 </body>
 
 </html>

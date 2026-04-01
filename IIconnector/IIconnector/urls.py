@@ -22,7 +22,7 @@ from IIapp.views import MainView, login_view, logout_view, page_not_found_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', MainView.as_view(), name='main'),
-    # path('', views.main_view, name='main'),
+    # path('api/data/', ChartData.as_view(), name='api-data'),
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
 ]
