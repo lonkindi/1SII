@@ -15,7 +15,7 @@ class OrganizationsAdmin(admin.ModelAdmin):
 @admin.register(FOT)
 class FOTAdmin(admin.ModelAdmin):   
     pass
-    # list_display = ('id', 'name', 'region', 'inn')
+    list_display = ('id', 'organizations', 'month', 'year', 'amount')
     
     
 @admin.register(AI_promts)
@@ -35,4 +35,4 @@ class AI_templatesAdmin(admin.ModelAdmin):
 
 @admin.register(Http1S_requests)
 class Http1S_requestsAdmin(admin.ModelAdmin):   
-    pass
+    list_display = ('id', 'organizations', 'name', 'request')

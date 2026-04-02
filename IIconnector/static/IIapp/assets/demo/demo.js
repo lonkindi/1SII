@@ -457,6 +457,23 @@ demo = {
           pointHoverBorderWidth: 15,
           pointRadius: 4,
           data: chart_data,
+        },
+      {
+          label: "Средняя зарплата по данным Росстата",
+          fill: true,
+          backgroundColor: gradientStroke,
+          borderColor: '#177592',
+          borderWidth: 2,
+          borderDash: [],
+          borderDashOffset: 0.0,
+          pointBackgroundColor: '#177592',
+          pointBorderColor: 'rgba(255,255,255,0)',
+          pointHoverBackgroundColor: '#177592',
+          pointBorderWidth: 20,
+          pointHoverRadius: 4,
+          pointHoverBorderWidth: 15,
+          pointRadius: 4,
+          data: chart_data_RS,
         }]
       },
       options: gradientChartOptionsConfigurationWithTooltipPurple

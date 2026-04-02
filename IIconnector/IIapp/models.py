@@ -19,7 +19,7 @@ class Organizations(models.Model):
         
 class FOT(models.Model):
     """ФОТ"""
-    organizations = models.ForeignKey(Organizations, verbose_name='Организация', on_delete=models.CASCADE)
+    organizations = models.ForeignKey(Organizations, verbose_name='Организация', on_delete=models.CASCADE, related_name='fot_org')
     month = models.PositiveSmallIntegerField(verbose_name='Месяц')
     year = models.PositiveSmallIntegerField(verbose_name='Год')
     amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Сумма начислений')
@@ -27,6 +27,11 @@ class FOT(models.Model):
     class Meta:
         verbose_name = 'ФОТ'
         verbose_name_plural = "Список ФОТ"
+        
+        ordering = ('year', 'month')
+        
+    def __str__(self):
+        return f'{self.organizations}_{self.month}_{self.year}_{self.amount}'
 
 
 class Http1S_requests(models.Model):
@@ -80,7 +85,9 @@ class AI_promts(models.Model):
         return self.name+'_'+self.organizations.name
     
 
-class AI_requests(models.Model):    
+class AI_requests(models.Model):
+    """Запросы к ИИ"""
+    organizations = models.ForeignKey(Organizations, verbose_name='Организация', on_delete=models.CASCADE)
     date_time = models.DateTimeField(verbose_name='Дата и время',
                                      default=datetime.datetime.today)
     request = models.TextField(verbose_name='Промт')

@@ -8,23 +8,22 @@ from django.http import HttpResponseNotFound, HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.views import View
 from users.forms import LoginForm
+import IIapp.oneS as oneS
 
 
 class MainView(View):
-    def get(self, request):
-       
+    def get(self, request):      
 
         labels = ['Апрель 2025', 'Май 2025', 'Июнь 2025', 'Июль 2025', 'Август 2025', 'Сентябрь 2025', 'Октябрь 2025', 'Ноябрь 2025', 'Декабрь 2025', 'Январь 2026', 'Февраль 2026', 'Март 2026',]
         data = [1060.00, 8890.00, 18853.55, 14487.00, 14123.00, 12013.00, 13800.00, 13800.00, 19803.00, 7797.00, 13800.00, 12006.00]        
         data_RS = [87500.00, 87500.00, 87500.55, 87500.00, 87500.00, 87500.00, 87500.00, 87500.00, 87500.00, 87500.00, 87500.00, 87500.00]
         data_Delta = [-86440.00, -78610.00, -68647.55, -73013.00, -73377.00, -75487.00, -73700.00, -73700.00, -67697.00, -79703.00, -73700.00, -75494.00]
-        
+        resp_dict = oneS.check_data()
         template_name = "IIapp/_main.html"
         org_name = resp_dict.get('Organization')
         base_name = resp_dict.get('Amount')
         context = {
             "title": "Главная страница",
-            "content_empl": content_empl,
             "org_name": org_name,
             "base_name": base_name,
             'labels': json.dumps(labels),
