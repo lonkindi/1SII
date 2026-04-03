@@ -1,38 +1,27 @@
 from django.contrib import admin
-from IIapp.models import Organizations, FOT, AI_promts, AI_requests, AI_templates, Http1S_requests
+from IIapp.models import Organizations, FOT, AI_promts, AI_requests, Http1S_requests
 
 
 @admin.register(Organizations)
-class OrganizationsAdmin(admin.ModelAdmin):
-    # formfield_overrides = {models.ManyToManyField: {'widget': CheckboxSelectMultiple}, }
-    # search_fields = ['Sname', 'phoneNumber']
-    # date_hierarchy = 'date_oper'
-    list_display = ('id', 'name', 'region', 'inn')
-    # list_display_links = ('date_oper', 'phoneNumber', 'Sname', 'Name', 'Mname')
-    # list_editable = ('Doctor',)
+class OrganizationsAdmin(admin.ModelAdmin):    
+    list_display = ('id', 'name', 'region', 'inn')    
 
 
 @admin.register(FOT)
-class FOTAdmin(admin.ModelAdmin):   
-    pass
-    list_display = ('id', 'organizations', 'month', 'year', 'amount')
+class FOTAdmin(admin.ModelAdmin):       
+    list_display = ('id', 'organizations', 'month', 'year', 'amount', 'employees')
     
     
 @admin.register(AI_promts)
-class AI_promtsAdmin(admin.ModelAdmin):   
-    pass
+class AI_promtsAdmin(admin.ModelAdmin):
+    list_display = ('id', 'organizations', 'name', 'template')
 
 
 @admin.register(AI_requests)
-class AI_requestsAdmin(admin.ModelAdmin):   
-    pass
-
-
-@admin.register(AI_templates)
-class AI_templatesAdmin(admin.ModelAdmin):   
-    pass
+class AI_requestsAdmin(admin.ModelAdmin):
+    list_display = ('id', 'date_time', 'organizations', 'promt', 'response', 'note')
 
 
 @admin.register(Http1S_requests)
-class Http1S_requestsAdmin(admin.ModelAdmin):   
+class Http1S_requestsAdmin(admin.ModelAdmin):
     list_display = ('id', 'organizations', 'name', 'request')

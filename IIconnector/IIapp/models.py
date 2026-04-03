@@ -23,6 +23,7 @@ class FOT(models.Model):
     month = models.PositiveSmallIntegerField(verbose_name='Месяц')
     year = models.PositiveSmallIntegerField(verbose_name='Год')
     amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Сумма начислений')
+    employees = models.PositiveSmallIntegerField(verbose_name='Количество сотрудников')
     
     class Meta:
         verbose_name = 'ФОТ'
@@ -52,23 +53,6 @@ class Http1S_requests(models.Model):
         return self.name+'_'+self.organizations.name
 
 
-class AI_templates(models.Model):
-    """Шаблоны ответов ИИ"""
-    organizations = models.ForeignKey(Organizations, verbose_name='Организация', on_delete=models.CASCADE)
-    name = models.CharField(max_length=256,
-                            verbose_name='Название шаблона ответа')
-    template = models.TextField(verbose_name='Шаблон ответа')
-
-    class Meta:
-        verbose_name = 'Шаблон ответа для ИИ'
-        verbose_name_plural = "Список шаблонов ответа для ИИ"
-
-        ordering = ('name',)
-
-    def __str__(self):
-        return self.name
-
-
 class AI_promts(models.Model):
     """Промты для ИИ"""
     organizations = models.ForeignKey(Organizations, verbose_name='Организация', on_delete=models.CASCADE)
@@ -90,9 +74,7 @@ class AI_requests(models.Model):
     organizations = models.ForeignKey(Organizations, verbose_name='Организация', on_delete=models.CASCADE)
     date_time = models.DateTimeField(verbose_name='Дата и время',
                                      default=datetime.datetime.today)
-    request = models.TextField(verbose_name='Промт')
-    template = models.ForeignKey(AI_templates, verbose_name='Шаблон ответа ИИ',
-                                 on_delete=models.CASCADE)
+    promt = models.ForeignKey(AI_promts, verbose_name='Промт', on_delete=models.CASCADE) 
     response = models.TextField(verbose_name='Ответ')
     note = models.CharField(max_length=256, verbose_name='Примечание')
 
