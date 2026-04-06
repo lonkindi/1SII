@@ -74,8 +74,9 @@ class AI_requests(models.Model):
     organizations = models.ForeignKey(Organizations, verbose_name='Организация', on_delete=models.CASCADE)
     date_time = models.DateTimeField(verbose_name='Дата и время',
                                      default=datetime.datetime.today)
-    promt = models.ForeignKey(AI_promts, verbose_name='Промт', on_delete=models.CASCADE) 
-    response = models.TextField(verbose_name='Ответ')
+    promt = models.ForeignKey(AI_promts, verbose_name='Промт', on_delete=models.CASCADE)
+    request = models.TextField(verbose_name='Текст запроса')
+    response = models.TextField(verbose_name='Текст ответа')
     note = models.CharField(max_length=256, verbose_name='Примечание')
 
     class Meta:

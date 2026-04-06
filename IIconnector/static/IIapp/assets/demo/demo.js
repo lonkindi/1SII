@@ -22,7 +22,7 @@ demo = {
     gradientChartOptionsConfiguration = {
       maintainAspectRatio: false,
       legend: {
-        display: false
+        display: true
       },
       tooltips: {
         bodySpacing: 4,
@@ -111,7 +111,7 @@ demo = {
     gradientChartOptionsConfigurationWithTooltipBlue = {
       maintainAspectRatio: false,
       legend: {
-        display: false
+        display: true
       },
 
       tooltips: {
@@ -159,7 +159,7 @@ demo = {
     gradientChartOptionsConfigurationWithTooltipPurple = {
       maintainAspectRatio: false,
       legend: {
-        display: false
+        display: true
       },
 
       tooltips: {
@@ -327,8 +327,8 @@ demo = {
             zeroLineColor: "transparent",
           },
           ticks: {
-            suggestedMin: 60,
-            suggestedMax: 120,
+            suggestedMin: 0,
+            suggestedMax: 5,
             padding: 20,
             fontColor: "#9e9e9e"
           }
@@ -349,90 +349,91 @@ demo = {
       }
     };
     
-    var ctx = document.getElementById("chartLinePurple").getContext("2d");
+    // var ctxPurple = document.getElementById("chartPurple").getContext("2d");
 
-    var gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
+    // var gradientStroke = ctxPurple.createLinearGradient(0, 230, 0, 50);
 
-    gradientStroke.addColorStop(1, 'rgba(72,72,176,0.2)');
-    gradientStroke.addColorStop(0.2, 'rgba(72,72,176,0.0)');
-    gradientStroke.addColorStop(0, 'rgba(119,52,169,0)'); //purple colors
+    // gradientStroke.addColorStop(1, 'rgba(72,72,176,0.2)');
+    // gradientStroke.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+    // gradientStroke.addColorStop(0, 'rgba(119,52,169,0)'); //purple colors
 
-    var data = {
-      labels: ['JUL', 'AUG', 'SEP', 'OCT', 'NOV'],
-      datasets: [{
-        label: "Data",
-        fill: true,
-        backgroundColor: gradientStroke,
-        borderColor: '#d048b6',
-        borderWidth: 2,
-        borderDash: [],
-        borderDashOffset: 0.0,
-        pointBackgroundColor: '#d048b6',
-        pointBorderColor: 'rgba(255,255,255,0)',
-        pointHoverBackgroundColor: '#d048b6',
-        pointBorderWidth: 20,
-        pointHoverRadius: 4,
-        pointHoverBorderWidth: 15,
-        pointRadius: 4,
-        data: [90, 27, 60, 12, 80],
-      }]
-    };
+    // var data = {
+    //   labels: ['JULY', 'AUG', 'SEP', 'OCT', 'NOV'],
+    //   datasets: [{
+    //     label: "Data",
+    //     fill: true,
+    //     backgroundColor: gradientStroke,
+    //     borderColor: '#d048b6',
+    //     borderWidth: 2,
+    //     borderDash: [],
+    //     borderDashOffset: 0.0,
+    //     pointBackgroundColor: '#d048b6',
+    //     pointBorderColor: 'rgba(255,255,255,0)',
+    //     pointHoverBackgroundColor: '#d048b6',
+    //     pointBorderWidth: 20,
+    //     pointHoverRadius: 4,
+    //     pointHoverBorderWidth: 15,
+    //     pointRadius: 4,
+    //     data: [90, 27, 60, 12, 80],
+    //   }]
+    // };
 
-    var myChart = new Chart(ctx, {
-      type: 'line',
-      data: data,
-      options: gradientChartOptionsConfigurationWithTooltipPurple
-    });
+    // var myChart = new Chart(ctxPurple, {
+    //   type: 'line',
+    //   data: data,
+    //   options: gradientChartOptionsConfigurationWithTooltipPurple
+    // });
 
 
-    var ctxGreen = document.getElementById("chartLineGreen").getContext("2d");
+    // var ctxGreen = document.getElementById("chartGreen").getContext("2d");
 
-    var gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
+    // var gradientStroke = ctxGreen.createLinearGradient(0, 230, 0, 50);
 
-    gradientStroke.addColorStop(1, 'rgba(66,134,121,0.15)');
-    gradientStroke.addColorStop(0.4, 'rgba(66,134,121,0.0)'); //green colors
-    gradientStroke.addColorStop(0, 'rgba(66,134,121,0)'); //green colors
+    // gradientStroke.addColorStop(1, 'rgba(66,134,121,0.15)');
+    // gradientStroke.addColorStop(0.4, 'rgba(66,134,121,0.0)'); //green colors
+    // gradientStroke.addColorStop(0, 'rgba(66,134,121,0)'); //green colors
 
-    var data = {
-      labels: ['JUL', 'AUG', 'SEP', 'OCT', 'NOV'],
-      datasets: [{
-        label: "My First dataset",
-        fill: true,
-        backgroundColor: gradientStroke,
-        borderColor: '#00d6b4',
-        borderWidth: 2,
-        borderDash: [],
-        borderDashOffset: 0.0,
-        pointBackgroundColor: '#00d6b4',
-        pointBorderColor: 'rgba(255,255,255,0)',
-        pointHoverBackgroundColor: '#00d6b4',
-        pointBorderWidth: 20,
-        pointHoverRadius: 4,
-        pointHoverBorderWidth: 15,
-        pointRadius: 4,
-        data: [90, 27, 60, 12, 80],
-      }]
-    };
+    // var data = {
+    //   labels: ['JUL', 'AUG', 'SEP', 'OCT', 'NOV'],
+    //   datasets: [{
+    //     label: "My First dataset",
+    //     fill: true,
+    //     backgroundColor: gradientStroke,
+    //     borderColor: '#00d6b4',
+    //     borderWidth: 2,
+    //     borderDash: [],
+    //     borderDashOffset: 0.0,
+    //     pointBackgroundColor: '#00d6b4',
+    //     pointBorderColor: 'rgba(255,255,255,0)',
+    //     pointHoverBackgroundColor: '#00d6b4',
+    //     pointBorderWidth: 20,
+    //     pointHoverRadius: 4,
+    //     pointHoverBorderWidth: 15,
+    //     pointRadius: 4,
+    //     data: [90, 27, 60, 12, 80],
+    //   }]
+    // };
 
-    var myChart = new Chart(ctxGreen, {
-      type: 'line',
-      data: data,
-      options: gradientChartOptionsConfigurationWithTooltipGreen
+    // var myChart = new Chart(ctxGreen, {
+    //   type: 'line',
+    //   data: data,
+    //   options: gradientChartOptionsConfigurationWithTooltipGreen
 
-    });
+    // });
 
 
     //const chartLabels = JSON.parse(document.getElementById('labels-data').textContent);
     //const chartData = JSON.parse(document.getElementById('data-data').textContent);
 
-    var chart_labels = JSON.parse(document.getElementById('labels-data').textContent);
-    var chart_data = JSON.parse(document.getElementById('data-data').textContent);
-    var chart_data_RS = JSON.parse(document.getElementById('data-data-RS').textContent);
-    var chart_data_Delta = JSON.parse(document.getElementById('data-data-Delta').textContent);
+    var chart_labels_salary = JSON.parse(document.getElementById('labels_salary').textContent);
+    var chart_data_salary = JSON.parse(document.getElementById('data_salary').textContent);
+    var chart_data_RS = JSON.parse(document.getElementById('data_RS').textContent);
+    var chart_labels_employees = JSON.parse(document.getElementById('labels_employees').textContent);
+    var chart_data_employees = JSON.parse(document.getElementById('data_employees').textContent);
 
-    var ctx = document.getElementById("chartFOT").getContext('2d');
+    var ctxFOT = document.getElementById("chartFOT").getContext('2d');
 
-    var gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
+    var gradientStroke = ctxFOT.createLinearGradient(0, 230, 0, 50);
 
     gradientStroke.addColorStop(1, 'rgba(72,72,176,0.1)');
     gradientStroke.addColorStop(0.4, 'rgba(72,72,176,0.0)');
@@ -440,9 +441,9 @@ demo = {
     var config = {
       type: 'line',
       data: {
-        labels: chart_labels,
+        labels: chart_labels_salary,
         datasets: [{
-          label: "Средняя зарплата по предприятию",
+          label: "Зарплата по данным бухучёта",
           fill: true,
           backgroundColor: gradientStroke,
           borderColor: '#d346b1',
@@ -456,7 +457,7 @@ demo = {
           pointHoverRadius: 4,
           pointHoverBorderWidth: 15,
           pointRadius: 4,
-          data: chart_data,
+          data: chart_data_salary,
         },
       {
           label: "Средняя зарплата по данным Росстата",
@@ -478,34 +479,34 @@ demo = {
       },
       options: gradientChartOptionsConfigurationWithTooltipPurple
     };
-    var myChartData = new Chart(ctx, config);
-    $("#0").click(function() {
-      var data = myChartData.config.data;
-      data.datasets[0].label = "Средняя зарплата по предприятию",
-      data.datasets[0].data = chart_data;
-      data.labels = chart_labels;
-      myChartData.update();
-    });
-    $("#1").click(function() {
-      var chart_data = chart_data_RS;
-      var data = myChartData.config.data;
-      data.datasets[0].label = "Средняя зарплата по данным Росстата",
-      data.datasets[0].data = chart_data;
-      data.labels = chart_labels;
-      myChartData.update();
-    });
+    var myChartData = new Chart(ctxFOT, config);
+    // $("#0").click(function() {
+    //   var data = myChartData.config.data;
+    //   data.datasets[0].label = "Средняя зарплата по предприятию",
+    //   data.datasets[0].data = chart_data_salary;
+    //   data.labels = chart_labels_salary;
+    //   myChartData.update();
+    // });
+    // $("#1").click(function() {
+    //   var chart_data = chart_data_RS;
+    //   var data = myChartData.config.data;
+    //   data.datasets[0].label = "Средняя зарплата по данным Росстата",
+    //   data.datasets[0].data = chart_data_RS;
+    //   data.labels = chart_labels_salary;
+    //   myChartData.update();
+    // });
 
-    $("#2").click(function() {
-      var chart_data = chart_data_Delta;
-      var data = myChartData.config.data;
-      data.datasets[0].label = "Разница между ЗП и данными Росстата",
-      data.datasets[0].data = chart_data;
-      data.labels = chart_labels;
-      myChartData.update();
-    });
+    // $("#2").click(function() {
+    //   var chart_data = chart_data_Delta;
+    //   var data = myChartData.config.data;
+    //   data.datasets[0].label = "Разница между ЗП и данными Росстата",
+    //   data.datasets[0].data = chart_data;
+    //   data.labels = chart_labels;
+    //   myChartData.update();
+    // });
 
 
-    var ctx = document.getElementById("CountryChart").getContext("2d");
+    var ctx = document.getElementById("chartEmpl").getContext("2d");
 
     var gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
 
@@ -521,9 +522,9 @@ demo = {
         display: false
       },
       data: {
-        labels: ['Пендосы', 'Фрицы', 'AUS', 'UK', 'RO', 'BR'],
+        labels: chart_labels_employees,
         datasets: [{
-          label: "Countries",
+          label: "Численность сотрудников",
           fill: true,
           backgroundColor: gradientStroke,
           hoverBackgroundColor: gradientStroke,
@@ -531,7 +532,7 @@ demo = {
           borderWidth: 2,
           borderDash: [],
           borderDashOffset: 0.0,
-          data: [53, 20, 10, 80, 100, 45],
+          data: chart_data_employees,
         }]
       },
       options: gradientBarChartConfiguration

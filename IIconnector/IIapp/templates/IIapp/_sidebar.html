@@ -5,8 +5,8 @@
     -->
       <div class="sidebar-wrapper">
         <div class="logo">
-          <h5>{{ org_name }}</h5>
-          <h6>{{ base_name }}</h6>          
+          <h4>{{ org_name }}</h4>
+          <h5>Численность персонала: {{ quantity_employees }}</h5>          
         </div>
         <ul class="nav">
           <li class="active ">
@@ -15,7 +15,7 @@
               <p>Панель управления</p>
             </a>
           </li>
-          <li>
+          {% comment %} <li>
             <a href="./icons.html">
               <i class="tim-icons icon-atom"></i>
               <p>Icons</p>
@@ -56,7 +56,7 @@
               <i class="tim-icons icon-world"></i>
               <p>RTL Support</p>
             </a>
-          </li>
+          </li> {% endcomment %}
         </ul>
       </div>
     </div>
