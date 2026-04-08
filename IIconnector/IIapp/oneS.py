@@ -47,7 +47,7 @@ def check_data(org_id=1):
                     newFOT = FOT(organizations_id=org_id, year=item[0], month=item[1], amount=salary, employees=len_resp_json)
                     newFOT.save()
     # Проверка статус-кода
-    resp_string = f"http://178.67.206.118:8081/petr/hs/DataForAI/zp?Date1={str_date1}&Date2={str_date2}"
+    resp_string = f"http://178.67.206.218:8081/petr/hs/DataForAI/zp?Date1={str_date1}&Date2={str_date2}"
     response = requests.get(resp_string)
     len_resp_json = len(response.json())
     if response.status_code == 200 and len_resp_json != 0:
