@@ -30,18 +30,22 @@ def check_data(org_id=1):
     str_date1 = '2026-03-01' #TEST_DATE
     str_date2 = '2026-03-31' #TEST_DATE
     date_list = get_date_list(org_id)
-    print(date_list)
+    http1S_request = Http1S_requests.objects.filter(organizations_id=org_id, name='FOT')
+    resp_string = http1S_request[0].request
     for item in date_list:
         if not (FOT.objects.filter(organizations_id=org_id, year=item[0], month=item[1]).exists()):
             date1 = datetime.date(item[0], item[1], 1)
             date2 = datetime.date(item[0], item[1], calendar.monthrange(item[0], item[1])[1])
-            resp_string = f"http://178.67.206.118:8081/petr/hs/DataForAI/zp?Date1={date1}&Date2={date2}"
+            resp_string = resp_string.replace('<date1>', str(date1)).replace('<date2>', str(date2))
             response = requests.get(resp_string)
             if response.status_code == 200:
-                resp_dict = response.json()[0]
-                newFOT = FOT(organizations_id=org_id, year=item[0], month=item[1], amount=resp_dict.get('Amount'))
-                newFOT.save()
-    # response = test_data
+                len_resp_json = len(response.json())
+                if len_resp_json != 0:
+                    salary = 0
+                    for empl in response.json():
+                        salary += empl.get('Amount', 0)
+                    newFOT = FOT(organizations_id=org_id, year=item[0], month=item[1], amount=salary, employees=len_resp_json)
+                    newFOT.save()
     # Проверка статус-кода
     resp_string = f"http://178.67.206.118:8081/petr/hs/DataForAI/zp?Date1={str_date1}&Date2={str_date2}"
     response = requests.get(resp_string)

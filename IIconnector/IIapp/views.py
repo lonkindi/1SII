@@ -40,8 +40,8 @@ class MainView(View):
             - Своевременно устранять выявленные нарушения и актуализировать все документы до 1 мая 2025 года.
             Рекомендуется заранее готовиться к процедуре подтверждения, отслеживать изменения на официальном сайте Минцифры и проверять корректность всех данных и документов.""" 
         
-        req = "Я к вам пишу — чего же боле?"
-        giga.count_tokens(req)
+        req = str({  "model": "gigachat-pro",  "messages": [    {      "role": "system",      "content": "Ты — главный бухгалтер аккредитованной IT-компании. Отвечай строго в формате JSON согласно предоставленной схеме."    },    {      "role": "user",      "content": "Данные Росстата по средней зарплате в IT-отрасли в регионе Тюмень за месяц с 2025-04-01 по 2025-04-30"    }  ],  "response_format": {    "type": "json_schema",    "json_schema": {      "type": "object",      "properties": {        "year": {          "type": "number"        },        "month": {          "type": "number"        },        "salary": {          "type": "number"        }      },      "required": [        "year",        "month",        "salary"      ]    }  }})
+        print('giga.count_tokens = ', giga.count_tokens(req))
         
         template_name = "IIapp/_main.html"
         # org_name = resp_dict.get('Organization')

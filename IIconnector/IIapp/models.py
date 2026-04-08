@@ -11,7 +11,7 @@ class Organizations(models.Model):
 
     class Meta:
         verbose_name = 'Организация'
-        verbose_name_plural = "Список организаций"
+        verbose_name_plural = "Организации"
         
     def __str__(self):
         return self.name
@@ -27,7 +27,24 @@ class FOT(models.Model):
     
     class Meta:
         verbose_name = 'ФОТ'
-        verbose_name_plural = "Список ФОТ"
+        verbose_name_plural = "ФОТ"
+        
+        ordering = ('year', 'month')
+        
+    def __str__(self):
+        return f'{self.organizations}_{self.month}_{self.year}_{self.amount}'
+
+
+class Salary_AI(models.Model):
+    """Зарплата по данным AI"""
+    organizations = models.ForeignKey(Organizations, verbose_name='Организация', on_delete=models.CASCADE, related_name='salari_org')
+    month = models.PositiveSmallIntegerField(verbose_name='Месяц')
+    year = models.PositiveSmallIntegerField(verbose_name='Год')
+    salary = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Средняя зарплата по региону за период')
+    
+    class Meta:
+        verbose_name = 'Зарплата по данным AI'
+        verbose_name_plural = "ЗП по данным AI"
         
         ordering = ('year', 'month')
         
@@ -38,14 +55,13 @@ class FOT(models.Model):
 class Http1S_requests(models.Model):
     """Запросы к 1С"""
     organizations = models.ForeignKey(Organizations, verbose_name='Организация', on_delete=models.CASCADE)
-    name = models.CharField(max_length=256,
-                            verbose_name='Название запроса к 1С')
+    name = models.CharField(max_length=256, verbose_name='Название запроса к 1С')
     request = models.URLField(verbose_name='Запрос к 1С')
     # response = models.TextField(verbose_name='Ответ 1С')
 
     class Meta:
         verbose_name = 'Запрос к 1С'
-        verbose_name_plural = "Список запросов к 1С"
+        verbose_name_plural = "Запросы к 1С"
 
         ordering = ('name',)
 
@@ -60,8 +76,8 @@ class AI_promts(models.Model):
     template = models.TextField(verbose_name='Текст промта')
     
     class Meta:
-        verbose_name = 'Промты для ИИ'
-        verbose_name_plural = "Список промтов для ИИ"
+        verbose_name = 'Промт для ИИ'
+        verbose_name_plural = "Промты для ИИ"
 
         ordering = ('name',)
 
@@ -81,7 +97,7 @@ class AI_requests(models.Model):
 
     class Meta:
         verbose_name = 'Запрос к ИИ'
-        verbose_name_plural = "Список запросов к ИИ"
+        verbose_name_plural = "Запросы к ИИ"
 
         ordering = ('-date_time',)
 
