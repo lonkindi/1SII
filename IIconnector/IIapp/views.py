@@ -8,6 +8,7 @@ from django.http import HttpResponseNotFound, HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.views import View
 from users.forms import LoginForm
+import IIapp.kernel as kernel
 import IIapp.oneS as oneS
 import IIapp.giga as giga
 from IIapp.models import FOT, Organizations
@@ -15,19 +16,25 @@ from IIapp.models import FOT, Organizations
 
 class MainView(View):
     def get(self, request, org=1):       
-        labels_salary = ['Апрель 2025', 'Май 2025', 'Июнь 2025', 'Июль 2025', 'Август 2025', 'Сентябрь 2025', 'Октябрь 2025', 'Ноябрь 2025', 'Декабрь 2025', 'Январь 2026', 'Февраль 2026', 'Март 2026',]
-        data_salary = [1060.00, 8890.00, 18853.55, 14487.00, 14123.00, 12013.00, 13800.00, 13800.00, 19803.00, 7797.00, 13800.00, 12006.00]        
         data_RS = [87500.00, 87500.00, 87500.55, 87500.00, 87500.00, 87500.00, 87500.00, 87500.00, 87500.00, 87500.00, 87500.00, 87500.00]
-        labels_employees = ['Апрель 2025', 'Май 2025', 'Июнь 2025', 'Июль 2025', 'Август 2025', 'Сентябрь 2025', 'Октябрь 2025', 'Ноябрь 2025', 'Декабрь 2025', 'Январь 2026', 'Февраль 2026', 'Март 2026',]
-        data_employees = [1, 2, 2, 3, 3, 2, 2, 2, 3, 3, 2, 1] 
-        resp_dict = oneS.check_data()
+        tuple_data_set = oneS.check_data()
         current_org = Organizations.objects.get(id=org)
-        date_list = oneS.get_date_list()
+        date_list = kernel.get_date_list()
+        labels_salary = []
+        labels_employees = []
+        for item in date_list:
+            label = f'{item[0]}  {item[2]}'
+            labels_salary.append(label)
+            labels_employees.append(label)
+        data_salary = tuple_data_set[0]
+        data_employees = tuple_data_set[1]           
+        # print('data_salary = ', data_salary)
+        # print('data_employees = ', data_employees)
         end_FOT = FOT.objects.filter(organizations_id=org, month=date_list[-1][1], year=date_list[-1][0])
         quantity_employees = end_FOT[0].employees
         start_period = f'{date_list[0][3]}  {date_list[0][0]}'
         end_period = f'{date_list[-1][2]}  {date_list[-1][0]}'
-        salary_BU = 13880
+        salary_BU = end_FOT[0].amount
         salary_RS = 87500
         recomendation = """ Для сохранения аккредитации Минцифры IT-компании в 2026 году должны соблюдать ряд требований и рекомендаций:
             - Ежегодно подтверждать статус через портал Госуслуг в установленный срок (с 7 мая по 1 июня 2025 года). Заявление подаётся только в электронном виде, бумажные варианты не принимаются. 
@@ -39,9 +46,42 @@ class MainView(View):
             - Следить за информационной безопасностью: нарушения в этой сфере могут привести к лишению аккредитации, особенно для операторов цифровых платформ. 
             - Своевременно устранять выявленные нарушения и актуализировать все документы до 1 мая 2025 года.
             Рекомендуется заранее готовиться к процедуре подтверждения, отслеживать изменения на официальном сайте Минцифры и проверять корректность всех данных и документов.""" 
+
+        promt = {
+          "model": "gigachat-max",
+          "messages": [
+            {
+              "role": "system",
+              "content": "Ты — главный бухгалтер аккредитованной IT-компании. Отвечай строго в формате JSON согласно предоставленной схеме. Не добавляй комментарии и дополнительные поля."
+            },
+            {
+              "role": "user",
+              "content": "Найди официальную среднемесячную номинальную начисленную заработную плату в регионе Тюменская область по данным Росстата за февраль 2025 года. Верни только JSON с полями year, month, salary. Все значения ТОЛЬКО цифрами"
+            }
+          ],
+          "response_format": {
+            "type": "json_schema",
+            "json_schema": {
+              "type": "object",
+              "properties": {
+                "year": { "type": "number" },
+                "month": { "type": "number" },
+                "salary": { "type": "number" }
+              },
+              "required": ["year", "month", "salary"]
+            }
+          }
+        }
         
-        req = str({  "model": "gigachat-pro",  "messages": [    {      "role": "system",      "content": "Ты — главный бухгалтер аккредитованной IT-компании. Отвечай строго в формате JSON согласно предоставленной схеме."    },    {      "role": "user",      "content": "Данные Росстата по средней зарплате в IT-отрасли в регионе Тюмень за месяц с 2025-04-01 по 2025-04-30"    }  ],  "response_format": {    "type": "json_schema",    "json_schema": {      "type": "object",      "properties": {        "year": {          "type": "number"        },        "month": {          "type": "number"        },        "salary": {          "type": "number"        }      },      "required": [        "year",        "month",        "salary"      ]    }  }})
-        print('giga.count_tokens = ', giga.count_tokens(req))
+        giga_ans =  "{\n  \"year\": 2025,\n  \"month\": 2,\n  \"salary\": 78431\n}"
+        dict_ans = {}
+        dict_ans = json.dumps(giga_ans)
+        print('ans = ', dict_ans)
+        print('ans type= ', type(dict_ans))
+        
+        # send_promt = giga.send_promt_sdk(promt)        
+        # print('giga.send_promt = ', send_promt)
+        # print('type send_promt = ', type(send_promt))
         
         template_name = "IIapp/_main.html"
         # org_name = resp_dict.get('Organization')
