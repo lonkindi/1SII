@@ -49,7 +49,7 @@ class Salary_AI(models.Model):
         ordering = ('year', 'month')
         
     def __str__(self):
-        return f'{self.organizations}_{self.month}_{self.year}_{self.amount}'
+        return f'{self.organizations}_{self.month}_{self.year}_{self.salary}'
 
 
 class Http1S_requests(models.Model):

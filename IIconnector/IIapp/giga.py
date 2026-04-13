@@ -94,35 +94,45 @@ def send_promt(promt):
 def send_promt_sdk(promt):
     giga = gigachat.GigaChat(
         credentials=os.getenv('GIGA_KEY'),
-        ca_bundle_file=os.path.join(settings.BASE_DIR, 'russian_trusted_root_ca_pem.crt')   
-    )
-
+        ca_bundle_file=os.path.join(settings.BASE_DIR, 'russian_trusted_root_ca_pem.crt'),
+        scope="GIGACHAT_API_PERS",
+        model="GigaChat-2-Max",
+        )
+        
     response = giga.chat(promt)
-    response_json = json.dumps(response.choices[0].message.content, ensure_ascii=False, indent=2)
-    # print(type(response))
-    # print(response)
-    return response_json
+    # print('response  = ', response)
+    response_content = json.dumps(response.choices[0].message.content, ensure_ascii=False, indent=2)
+    response_json = json.loads(response_content)
+    print('type response_json =', type(response_json))
+    print('response_json =',  response_json)
+    return response_content
 
 
 def check_data(org_id=1):    
     date_list = kernel.get_date_list(org_id)
-    AI_promt = AI_promts.objects.filter(organizations_id=org_id, name='FOT')
-    promt_string = AI_promt[0].template
+    AI_promt = AI_promts.objects.filter(organizations_id=org_id, name='ZP_MONTH')    
+    promt_str = AI_promt[0].template
     list_salary = []
     for item in date_list:
         current_Salary_AI = Salary_AI.objects.filter(organizations_id=org_id, year=item[0], month=item[1])
         if not (current_Salary_AI.exists()):
-            date1 = datetime.date(item[0], item[1], 1)
-            date2 = datetime.date(item[0], item[1], calendar.monthrange(item[0], item[1])[1])
-            promt_string = promt_string.replace('<date1>', str(date1)).replace('<date2>', str(date2))
-            response = send_promt(promt_string)
-            if response.status_code == 200:
-                len_resp_json = len(response.json())
-                if len_resp_json != 0:
-                    new_Salary_AI = Salary_AI(organizations_id=org_id, year=item[0], month=item[1], salary=salary)
-                    new_Salary_AI.save()
-                    list_salary.append(float(new_Salary_AI.salary))
+            response = ''
+            promt_string = promt_str.replace('<month>', str(item[2])).replace('<year>', str(item[0]))
+            promt = json.loads(promt_string)
+            # print("promt_string = ", promt_string)
+            response = send_promt_sdk(promt)
+            # print("response = ", response)
+            if response:
+                print('response = ', response)
+                print('type response = ', type(response)) 
+                  
+                dict_salary = {}
+                dict_salary = eval(json.loads(response))
+                print('dict_salary = ', dict_salary)
+                print('type dict_salary = ', type(dict_salary))
+                new_Salary_AI = Salary_AI(organizations_id=org_id, year=item[0], month=item[1], salary=dict_salary.get('salary', 0))
+                new_Salary_AI.save()
+                list_salary.append(float(new_Salary_AI.salary))
         else:
-            list_salary.append(float(current_Salary_AI[0].amount))
+            list_salary.append(float(current_Salary_AI[0].salary))
     return list_salary
-    

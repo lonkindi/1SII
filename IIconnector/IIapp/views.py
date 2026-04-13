@@ -11,12 +11,12 @@ from users.forms import LoginForm
 import IIapp.kernel as kernel
 import IIapp.oneS as oneS
 import IIapp.giga as giga
-from IIapp.models import FOT, Organizations
+from IIapp.models import FOT, Organizations, AI_promts
 
 
 class MainView(View):
     def get(self, request, org=1):       
-        data_RS = [87500.00, 87500.00, 87500.55, 87500.00, 87500.00, 87500.00, 87500.00, 87500.00, 87500.00, 87500.00, 87500.00, 87500.00]
+        # data_RS = [87500.00, 87500.00, 87500.55, 87500.00, 87500.00, 87500.00, 87500.00, 87500.00, 87500.00, 87500.00, 87500.00, 87500.00]
         tuple_data_set = oneS.check_data()
         current_org = Organizations.objects.get(id=org)
         date_list = kernel.get_date_list()
@@ -35,6 +35,8 @@ class MainView(View):
         start_period = f'{date_list[0][3]}  {date_list[0][0]}'
         end_period = f'{date_list[-1][2]}  {date_list[-1][0]}'
         salary_BU = end_FOT[0].amount
+        
+        data_RS = giga.check_data(current_org.pk)
         salary_RS = 87500
         recomendation = """ Для сохранения аккредитации Минцифры IT-компании в 2026 году должны соблюдать ряд требований и рекомендаций:
             - Ежегодно подтверждать статус через портал Госуслуг в установленный срок (с 7 мая по 1 июня 2025 года). Заявление подаётся только в электронном виде, бумажные варианты не принимаются. 
@@ -47,7 +49,7 @@ class MainView(View):
             - Своевременно устранять выявленные нарушения и актуализировать все документы до 1 мая 2025 года.
             Рекомендуется заранее готовиться к процедуре подтверждения, отслеживать изменения на официальном сайте Минцифры и проверять корректность всех данных и документов.""" 
 
-        promt = {
+        AI_promt = {
           "model": "gigachat-max",
           "messages": [
             {
@@ -73,11 +75,17 @@ class MainView(View):
           }
         }
         
-        giga_ans =  "{\n  \"year\": 2025,\n  \"month\": 2,\n  \"salary\": 78431\n}"
-        dict_ans = {}
-        dict_ans = json.dumps(giga_ans)
-        print('ans = ', dict_ans)
-        print('ans type= ', type(dict_ans))
+        # giga_ans =  "{\n  \"year\": 2025,\n  \"month\": 2,\n  \"salary\": 78431\n}"
+        # dict_ans = {}
+        # dict_ans = json.loads(giga_ans)
+        # print('ans = ', dict_ans.get('salary', 0))
+        # print('ans type= ', type(dict_ans))
+        
+        # AI_promt = AI_promts.objects.filter(organizations_id=1, name='ZP_MONTH')        
+        # promt_string = AI_promt[0].template
+        # promt = json.loads(promt_string.replace('<month>', str(date_list[0][2])).replace('<year>', str(date_list[0][0])))
+        # print('promt = ',  promt)
+        # print('type promt = ',  type(promt))
         
         # send_promt = giga.send_promt_sdk(promt)        
         # print('giga.send_promt = ', send_promt)

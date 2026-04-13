@@ -3,12 +3,14 @@ import calendar
 from IIapp.models import Organizations
 
 
-def get_date_list(org_id=1, now=datetime.datetime.now().date()):
-    MONTHS_RU = {
+MONTHS_RU = {
         1: ('январь', 'января'), 2: ('февраль', 'февраля'), 3: ('март', 'марта'), 4: ('апрель', 'апреля'),
         5: ('май', 'мая'), 6: ('июнь', 'июня'), 7: ('июль', 'июля'), 8: ('август', 'августа'),
         9: ('сентябрь', 'сентября'), 10: ('октябрь', 'октября'), 11: ('ноябрь', 'ноября'), 12: ('декабрь', 'декабря')
     }
+
+
+def get_date_list(org_id=1, now=datetime.datetime.now().date()):    
     if Organizations.objects.filter(id=org_id).exists():        
         now = datetime.datetime.now().date()        
         date_list = []
