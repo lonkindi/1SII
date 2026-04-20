@@ -98,14 +98,15 @@ def send_promt_sdk(promt):
         scope="GIGACHAT_API_PERS",
         model="GigaChat-2-Max",
         )
-        
+   
     response = giga.chat(promt)
-    # print('response  = ', response)
+    
     response_content = json.dumps(response.choices[0].message.content, ensure_ascii=False, indent=2)
     response_json = json.loads(response_content)
+    print('response_content  = ', response_content)
     print('type response_json =', type(response_json))
     print('response_json =',  response_json)
-    return response_content
+    return response_content, response
 
 
 def check_data(org_id=1):    
@@ -125,7 +126,7 @@ def check_data(org_id=1):
             if response:
                 print('response = ', response)
                 print('type response = ', type(response)) 
-                  
+
                 dict_salary = {}
                 dict_salary = eval(json.loads(response))
                 print('dict_salary = ', dict_salary)

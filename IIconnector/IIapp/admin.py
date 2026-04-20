@@ -22,8 +22,8 @@ class AI_promtsAdmin(admin.ModelAdmin):
 
 @admin.register(AI_requests)
 class AI_requestsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'date_time', 'organizations', 'promt', 'response', 'note')
-    list_display_links = ('id', 'date_time', 'organizations')
+    list_display = ('id', 'date_time', 'organizations', 'promt_name', 'response', 'note')
+    list_display_links = ('id', 'date_time', 'promt_name', 'organizations')
 
 
 @admin.register(Http1S_requests)

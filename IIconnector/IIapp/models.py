@@ -90,7 +90,7 @@ class AI_requests(models.Model):
     organizations = models.ForeignKey(Organizations, verbose_name='Организация', on_delete=models.CASCADE)
     date_time = models.DateTimeField(verbose_name='Дата и время',
                                      default=datetime.datetime.today)
-    promt = models.ForeignKey(AI_promts, verbose_name='Промт', on_delete=models.CASCADE)
+    promt_name = models.TextField(verbose_name='Название запроса')
     request = models.TextField(verbose_name='Текст запроса')
     response = models.TextField(verbose_name='Текст ответа')
     note = models.CharField(max_length=256, verbose_name='Примечание')
@@ -102,4 +102,4 @@ class AI_requests(models.Model):
         ordering = ('-date_time',)
 
     def __str__(self):
-        return f'{self.date_time}_{self.requests}'
+        return f'{self.date_time}_{self.organizations}_{self.promt_name}'
