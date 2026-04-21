@@ -106,7 +106,7 @@ def send_promt_sdk(promt):
     print('response_content  = ', response_content)
     print('type response_json =', type(response_json))
     print('response_json =',  response_json)
-    return response_content, response
+    return response_content
 
 
 def check_data(org_id=1):    

@@ -43,17 +43,20 @@ def get_data(org_id=1, now=datetime.datetime.now().date()):
 def get_analize(org_id=1, now=datetime.datetime.now().date()):
     analize_dict = {}
     if Organizations.objects.filter(id=org_id).exists():
-        current_analize = AI_requests.objects.filter(organizations_id=org_id).order_by('-date_time')[:1]
+        print(datetime.date(now.year, now.month - 1, calendar.monthrange(now.year, now.month-1)[1]))
+        current_analize = AI_requests.objects.filter(organizations_id=org_id).filter(date_request__gt=datetime.date(now.year, now.month - 1, calendar.monthrange(now.year, now.month-1)[1]))
         print('current_analize = ', len(current_analize))
-        if len(current_analize)== 0 or current_analize[0].date_time < (now.date() - datetime.timedelta(month=1)):
+        if len(current_analize) == 0:
             AI_promt = AI_promts.objects.filter(organizations_id=org_id, name='ANALIZ')    
             promt_str = AI_promt[0].template            
             promt_data_str = get_data(org_id)
             promt_string = promt_str.replace('<data>', promt_data_str)
             promt_dict = json.loads(promt_string)
             response_content = giga.send_promt_sdk(promt_dict)
-            new_analize = AI_requests(organizations_id=org_id, promt_name='ANALIZ', request=promt_string, response=response_content, date_time=datetime.datetime.now().date())
+            new_analize = AI_requests(organizations_id=org_id, promt_name='ANALIZ', request=promt_string, response=response_content, date_request=datetime.datetime.now().date())
             new_analize.save()
             current_analize = new_analize
+        else:
+            current_analize = current_analize[0]            
     analize_dict = eval(json.loads(current_analize.response))        
     return analize_dict

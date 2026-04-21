@@ -88,8 +88,7 @@ class AI_promts(models.Model):
 class AI_requests(models.Model):
     """Запросы к ИИ"""
     organizations = models.ForeignKey(Organizations, verbose_name='Организация', on_delete=models.CASCADE)
-    date_time = models.DateTimeField(verbose_name='Дата и время',
-                                     default=datetime.datetime.today)
+    date_request = models.DateTimeField(verbose_name='Дата и время', default=datetime.datetime.today)
     promt_name = models.TextField(verbose_name='Название запроса')
     request = models.TextField(verbose_name='Текст запроса')
     response = models.TextField(verbose_name='Текст ответа')
@@ -99,7 +98,7 @@ class AI_requests(models.Model):
         verbose_name = 'Запрос к ИИ'
         verbose_name_plural = "Запросы к ИИ"
 
-        ordering = ('-date_time',)
+        ordering = ('-date_request',)
 
     def __str__(self):
-        return f'{self.date_time}_{self.organizations}_{self.promt_name}'
+        return f'{self.date_request}_{self.organizations}_{self.promt_name}'
