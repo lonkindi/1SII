@@ -5,22 +5,7 @@ from django.contrib.auth.admin import UserAdmin
 from users.forms import CustomUserCreationForm, CustomUserChangeForm
 
 
-# class CustomUserAdmin(UserAdmin):
-#     add_form = CustomUserCreationForm
-#     form = CustomUserChangeForm
-#     # fieldsets = (
-#     #     (_("Personal info"), {"fields": ("first_name", "last_name", "phone", "email", "user_type")}),
-#     # )
-#     list_display = ('username', 'phone', 'email', 'is_staff', 'is_superuser')
-#     # inlines = [InlinehzUserInfo, InlinehzUserEvents, ]
-
 @admin.register(CustomUser)
-class CustomUserAdmin(UserAdmin):
-    add_form = CustomUserCreationForm
-    form = CustomUserChangeForm
-    # fieldsets = (
-#     #     (_("Personal info"), {"fields": ("first_name", "last_name", "phone", "email", "user_type")}),
-#     # )
+class CustomUserAdmin(UserAdmin):    
+    add_fieldsets = ( ( None, { "classes": ("wide",), "fields": ("username", "phone", "email", "password1", "password2"), }, ), )   
     list_display = ('username', 'phone', 'email', 'is_staff', 'is_superuser')
-
-# admin.site.register(CustomUserAdmin)

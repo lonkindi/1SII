@@ -22,7 +22,7 @@
               <div class="search-bar input-group">
                 <!-- <input type="text" class="form-control" placeholder="Search...">
       <div class="input-group-addon"><i class="tim-icons icon-zoom-split"></i></div> -->
-                <button class="btn btn-link" id="search-button" data-toggle="modal" data-target="#searchModal"><i class="tim-icons icon-zoom-split"></i></button>
+                {% comment %} <button class="btn btn-link" id="search-button" data-toggle="modal" data-target="#searchModal"><i class="tim-icons icon-zoom-split"></i></button> {% endcomment %}
                 <!-- You can choose types of search input -->
               </div>
               <!-- <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModal" aria-hidden="true">
@@ -40,7 +40,7 @@
       </div>
     </div>
   </div> -->
-              <li class="dropdown nav-item">
+              {% comment %} <li class="dropdown nav-item">
                 <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
                   <div class="notification d-none d-lg-block d-xl-block"></div>
                   <i class="tim-icons icon-sound-wave"></i>
@@ -65,11 +65,11 @@
                     <a href="#" class="nav-item dropdown-item">Another one</a>
                   </li>
                 </ul>
-              </li>
+              </li> {% endcomment %}
               <li class="dropdown nav-item">
                 <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
                   <div class="photo">
-                    <img src={% static "IIapp/assets/img/anime3.png" %}>
+                    <img src={% static "IIapp/assets/img/XUNIT.svg" %}>
                   </div>
                   <b class="caret d-none d-lg-block d-xl-block"></b>
                   <p class="d-lg-none">
@@ -78,11 +78,11 @@
                 </a>
                 <ul class="dropdown-menu dropdown-navbar">
                   <li class="nav-link">
-                    <a href="#" class="nav-item dropdown-item">Profile</a>
+                    <a href="#" class="nav-item dropdown-item">{{ user_name }}</a>
                   </li>
-                  <li class="nav-link">
+                  {% comment %} <li class="nav-link">
                     <a href="#" class="nav-item dropdown-item">Settings</a>
-                  </li>
+                  </li> {% endcomment %}
                   <div class="dropdown-divider"></div>
                   <li class="nav-link">
                     <a href="../logout" class="nav-item dropdown-item">Выход</a>

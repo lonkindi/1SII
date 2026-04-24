@@ -15,7 +15,10 @@ from IIapp.models import FOT, Organizations, AI_promts, Salary_AI, AI_requests
 
 
 class MainView(View):
-    def get(self, request, org=1):       
+    def get(self, request, org=1):
+        if not request.user.is_authenticated:
+            return redirect(reverse(login_view))        
+        user_name = request.user       
         tuple_data_set = oneS.check_data()
         current_org = Organizations.objects.get(id=org)
         date_list = kernel.get_date_list()
@@ -66,6 +69,7 @@ class MainView(View):
         # org_name = resp_dict.get('Organization')
         context = {
             "title": "Главная страница",
+            'user_name': user_name,
             "org_name": current_org.name,
             "quantity_employees": quantity_employees,
             "start_period": start_period,
