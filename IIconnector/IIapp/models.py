@@ -1,9 +1,11 @@
 from django.db import models
 import datetime
+from users.models import CustomUser
 
 
 class Organizations(models.Model):
     """Организации"""
+    user = models.ForeignKey(CustomUser, related_name='org', on_delete=models.CASCADE)
     name = models.CharField(max_length=256, unique=True, verbose_name='Наименование организации')
     region = models.CharField(max_length=256, verbose_name='Регион')
     inn = models.CharField(max_length=12, verbose_name='ИНН')

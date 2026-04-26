@@ -15,6 +15,9 @@
               <p>Панель управления</p>
             </a>
           </li>
+          {% for item in user_org %}
+              <li>{{ item.name }}</li>
+          {% endfor %}
           {% comment %} <li>
             <a href="./icons.html">
               <i class="tim-icons icon-atom"></i>

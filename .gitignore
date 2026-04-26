@@ -1,5 +1,6 @@
 /IIconnector/IIconnector/settings_local.py
 /IIconnector/IIapp/migrations/
+/IIconnector/users/migrations/
 /IIconnector/db.sqlite3
 /.venv/
 /.env

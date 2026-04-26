@@ -18,7 +18,9 @@ class MainView(View):
     def get(self, request, org=1):
         if not request.user.is_authenticated:
             return redirect(reverse(login_view))        
-        user_name = request.user       
+        user_name = request.user
+        user_org = request.user.org.all()
+        print('user_org = ', user_org)       
         tuple_data_set = oneS.check_data()
         current_org = Organizations.objects.get(id=org)
         date_list = kernel.get_date_list()
@@ -70,6 +72,7 @@ class MainView(View):
         context = {
             "title": "Главная страница",
             'user_name': user_name,
+            'user_org': user_org,
             "org_name": current_org.name,
             "quantity_employees": quantity_employees,
             "start_period": start_period,
