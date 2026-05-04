@@ -18,14 +18,21 @@ class MainView(View):
     def get(self, request, org=1):
         if not request.user.is_authenticated:
             return redirect(reverse(login_view))        
-        user_name = request.user
+        current_user = request.user
         user_org = request.user.org.all()
-        print('user_org = ', user_org)       
+        if current_user.is_superuser:
+            user_org = Organizations.objects.all()       
+        current_org = Organizations.objects.get(id=org)
+        if not user_org.contains(current_org) and not current_user.is_superuser:
+            return HttpResponse("У вас нет прав на доступ к данным этой организации!")
         tuple_data_set = oneS.check_data()
         current_org = Organizations.objects.get(id=org)
         date_list = kernel.get_date_list()
         labels_salary = []
         labels_employees = []
+        quantity_employees = 0
+        salary_BU = 0
+        salary_RS = 0
         for item in date_list:
             label = f'{item[0]}  {item[2]}'
             labels_salary.append(label)
@@ -33,47 +40,31 @@ class MainView(View):
         data_salary = tuple_data_set[0]
         data_employees = tuple_data_set[1]           
         end_FOT = FOT.objects.filter(organizations_id=org, month=date_list[-1][1], year=date_list[-1][0])
-        end_Salary_AI = Salary_AI.objects.filter(organizations_id=org, month=date_list[-1][1], year=date_list[-1][0])
-        quantity_employees = end_FOT[0].employees
+        end_Salary_AI = Salary_AI.objects.filter(organizations_id=org, month=date_list[-1][1], year=date_list[-1][0])        
+        if len(end_FOT):
+            quantity_employees = end_FOT[0].employees
+            salary_BU = end_FOT[0].amount
+        if len(end_Salary_AI):
+            salary_RS = end_Salary_AI[0].salary
         start_period = f'{date_list[0][3]}  {date_list[0][0]}'
         end_period = f'{date_list[-1][2]}  {date_list[-1][0]}'
-        salary_BU = end_FOT[0].amount
-        salary_RS = end_Salary_AI[0].salary
-                
+                        
         data_RS = giga.check_data(current_org.pk)
         
         analiz_dict = kernel.get_analize(current_org.pk)
         
-        status = analiz_dict.get('status', False)
+        status = analiz_dict.get('status', '')
         analysis = analiz_dict.get('analysis', '')
         inconsistencies = analiz_dict.get('inconsistencies', '')
         recommendations = analiz_dict.get('recommendations', '')
-
-        print('type analiz_dict = ',  type(analiz_dict))
-        
-        # giga_ans =  "{\n  \"year\": 2025,\n  \"month\": 2,\n  \"salary\": 78431\n}"
-        # dict_ans = {}
-        # dict_ans = json.loads(giga_ans)
-        # print('ans = ', dict_ans.get('salary', 0))
-        # print('ans type= ', type(dict_ans))
-        
-        # AI_promt = AI_promts.objects.filter(organizations_id=1, name='ZP_MONTH')        
-        # promt_string = AI_promt[0].template
-        # promt = json.loads(promt_string.replace('<month>', str(date_list[0][2])).replace('<year>', str(date_list[0][0])))
-        # print('promt = ',  promt)
-        # print('type promt = ',  type(promt))
-        
-        # send_promt = giga.send_promt_sdk(promt)        
-        # print('giga.send_promt = ', send_promt)
-        # print('type send_promt = ', type(send_promt))
-        
         template_name = "IIapp/_main.html"
-        # org_name = resp_dict.get('Organization')
+
         context = {
             "title": "Главная страница",
-            'user_name': user_name,
+            'user_name': current_user.phone,
             'user_org': user_org,
             "org_name": current_org.name,
+            "org_pk": current_org.pk,
             "quantity_employees": quantity_employees,
             "start_period": start_period,
             "end_period": end_period,

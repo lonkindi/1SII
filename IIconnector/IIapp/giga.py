@@ -111,29 +111,32 @@ def send_promt_sdk(promt):
 
 def check_data(org_id=1):    
     date_list = kernel.get_date_list(org_id)
-    AI_promt = AI_promts.objects.filter(organizations_id=org_id, name='ZP_MONTH')    
-    promt_str = AI_promt[0].template
+    AI_promt = AI_promts.objects.filter(organizations_id=org_id, name='ZP_MONTH')
+    promt_str = ''
     list_salary = []
-    for item in date_list:
-        current_Salary_AI = Salary_AI.objects.filter(organizations_id=org_id, year=item[0], month=item[1])
-        if not (current_Salary_AI.exists()):
-            response = ''
-            promt_string = promt_str.replace('<month>', str(item[2])).replace('<year>', str(item[0]))
-            promt = json.loads(promt_string)
-            # print("promt_string = ", promt_string)
-            response = send_promt_sdk(promt)
-            # print("response = ", response)
-            if response:
-                print('response = ', response)
-                print('type response = ', type(response)) 
+    if len(AI_promt):
+        promt_str = AI_promt[0].template        
+        for item in date_list:
+            current_Salary_AI = Salary_AI.objects.filter(organizations_id=org_id, year=item[0], month=item[1])
+            if not (current_Salary_AI.exists()):
+                response = ''
+                promt_string = promt_str.replace('<month>', str(item[2])).replace('<year>', str(item[0]))
+                print("promt_string = ", promt_string)
+                promt = json.loads(promt_string)
+                
+                response = send_promt_sdk(promt)
+                # print("response = ", response)
+                if response:
+                    print('response = ', response)
+                    print('type response = ', type(response)) 
 
-                dict_salary = {}
-                dict_salary = eval(json.loads(response))
-                print('dict_salary = ', dict_salary)
-                print('type dict_salary = ', type(dict_salary))
-                new_Salary_AI = Salary_AI(organizations_id=org_id, year=item[0], month=item[1], salary=dict_salary.get('salary', 0))
-                new_Salary_AI.save()
-                list_salary.append(float(new_Salary_AI.salary))
-        else:
-            list_salary.append(float(current_Salary_AI[0].salary))
+                    dict_salary = {}
+                    dict_salary = eval(json.loads(response))
+                    print('dict_salary = ', dict_salary)
+                    print('type dict_salary = ', type(dict_salary))
+                    new_Salary_AI = Salary_AI(organizations_id=org_id, year=item[0], month=item[1], salary=dict_salary.get('salary', 0))
+                    new_Salary_AI.save()
+                    list_salary.append(float(new_Salary_AI.salary))
+            else:
+                list_salary.append(float(current_Salary_AI[0].salary))
     return list_salary
