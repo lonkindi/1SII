@@ -21,12 +21,15 @@ class MainView(View):
         current_user = request.user
         user_org = request.user.org.all()
         if current_user.is_superuser:
-            user_org = Organizations.objects.all()       
-        current_org = Organizations.objects.get(id=org)
+            user_org = Organizations.objects.all()
+        if Organizations.objects.filter(pk=org).exists():                       
+            current_org = Organizations.objects.get(pk=org)
+        else:
+            return HttpResponseNotFound("Организация не найдена!")
         if not user_org.contains(current_org) and not current_user.is_superuser:
-            return HttpResponse("У вас нет прав на доступ к данным этой организации!")
+            return HttpResponse("У вас нет прав на доступ к данным!")
         tuple_data_set = oneS.check_data()
-        current_org = Organizations.objects.get(id=org)
+        # current_org = Organizations.objects.get(id=org)
         date_list = kernel.get_date_list()
         labels_salary = []
         labels_employees = []
