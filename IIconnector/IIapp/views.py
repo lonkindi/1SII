@@ -123,3 +123,8 @@ def logout_view(request):
 
 def page_not_found_view(request, exception):
     return render(request, "IIapp/404.html", status=404)
+
+
+def main(request):
+    # return HttpResponse("Ok")
+    return redirect('/home/')

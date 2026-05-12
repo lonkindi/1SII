@@ -17,12 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from IIapp.views import MainView, login_view, logout_view, page_not_found_view
+from IIapp.views import MainView, login_view, logout_view, page_not_found_view, main
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home/', MainView.as_view(), name='main'),
-    path('home/<int:org>/', MainView.as_view(), name='main'),
+    path('', main, name='main'),
+    path('home/', MainView.as_view(), name='home'),
+    path('home/<int:org>/', MainView.as_view(), name='home'),
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
 ]
