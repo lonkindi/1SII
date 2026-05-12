@@ -20,7 +20,7 @@ class MainView(View):
             return redirect(reverse(login_view))        
         current_user = request.user
         user_org = request.user.org.all()
-        if current_user.is_superuser:
+        if current_user.is_superuser or current_user.is_staff:
             user_org = Organizations.objects.all()
         if Organizations.objects.filter(pk=org).exists():                       
             current_org = Organizations.objects.get(pk=org)
@@ -28,7 +28,7 @@ class MainView(View):
             return HttpResponseNotFound("Организация не найдена!")
         if not user_org.contains(current_org) and not current_user.is_superuser:
             return HttpResponse("У вас нет прав на доступ к данным!")
-        tuple_data_set = oneS.check_data()
+        tuple_data_set = oneS.check_data(current_org.pk)
         # current_org = Organizations.objects.get(id=org)
         date_list = kernel.get_date_list()
         labels_salary = []
