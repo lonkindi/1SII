@@ -126,5 +126,5 @@ def page_not_found_view(request, exception):
 
 
 def main(request):
-    # return HttpResponse("Ok")
-    return redirect('/home/')
+    return HttpResponse("Ok")
+    # return redirect('/home/')
