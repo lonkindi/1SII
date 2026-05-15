@@ -43,9 +43,9 @@ def get_data(org_id=1, now=datetime.datetime.now().date()):
 def get_analize(org_id=1, now=datetime.datetime.now().date()):
     analize_dict = {}
     if Organizations.objects.filter(id=org_id).exists():
-        print(datetime.date(now.year, now.month - 1, calendar.monthrange(now.year, now.month-1)[1]))
+        # print(datetime.date(now.year, now.month - 1, calendar.monthrange(now.year, now.month-1)[1]))
         current_analize = AI_requests.objects.filter(organizations_id=org_id).filter(date_request__gt=datetime.date(now.year, now.month - 1, calendar.monthrange(now.year, now.month-1)[1]))
-        print('current_analize = ', len(current_analize))
+        # print('current_analize = ', len(current_analize))
         if len(current_analize) == 0:
             AI_promt = AI_promts.objects.filter(organizations_id=org_id, name='ANALIZ')
             if len(AI_promt):    

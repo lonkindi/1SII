@@ -1,16 +1,17 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 from django.forms import SelectDateWidget, Textarea
 
 from users.models import CustomUser
 
 
-class LoginForm(forms.Form):
-    user_login = forms.CharField(label='Логин', max_length=50)
-    user_password = forms.CharField(label='Пароль', max_length=12, widget=forms.PasswordInput())
-
-    user_login.widget.attrs.update({'class': 'form-control', 'placeholder': ' логин'})
-    user_password.widget.attrs.update({'class': 'form-control', 'placeholder': 'пароль'})
+class LoginForm(AuthenticationForm):
+    
+    username = forms.CharField(label='Имя пользователя')
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput)
+    
+    username.widget.attrs.update({'class': 'form-control', 'placeholder': ' логин'})
+    password.widget.attrs.update({'class': 'form-control', 'placeholder': 'пароль'})
 
 
 class CustomUserCreationForm(UserCreationForm):

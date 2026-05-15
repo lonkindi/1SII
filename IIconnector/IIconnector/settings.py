@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 import os
 from pathlib import Path
-#import IIconnector.settings_local as sl
+
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -32,7 +33,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users.apps.UsersConfig',
+    # 'users.apps.UsersConfig',
+    'users',
     'IIapp',
 ]
 

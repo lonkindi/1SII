@@ -29,7 +29,6 @@ class MainView(View):
         if not user_org.contains(current_org) and not current_user.is_superuser:
             return HttpResponse("У вас нет прав на доступ к данным!")
         tuple_data_set = oneS.check_data(current_org.pk)
-        # current_org = Organizations.objects.get(id=org)
         date_list = kernel.get_date_list()
         labels_salary = []
         labels_employees = []
@@ -92,21 +91,23 @@ def login_view(request):
         logger.info(f"Авторизанный пользователь {request.user} на странице входа")
         return redirect("main")
     if request.method == "POST":
-        username = request.POST.get("user_login", None)
-        password = request.POST.get("user_password", None)
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            if user.is_active:
-                login(request, user)
-                logger.info(f"Успешная авторизация пользователя {user}")
-                return redirect("main")
+        form = LoginForm(data=request.POST)
+        if form.is_valid():            
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')            
+            user = authenticate(request, username=username, password=password)       
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    logger.info(f"Успешная авторизация пользователя {user}")
+                    return redirect("main")
+                else:
+                    logger.warning(f"Пользователь {username} не активирован")
             else:
-                logger.warning(f"Пользователь {username} не активирован")
-        else:
-            logger.warning(
-                f"Неудачная попытка авторизация пользователя {username} с паролем {password}"
-                )
-            return HttpResponse("Некорректный логин или пароль!")
+                logger.warning(
+                    f"Неудачная попытка авторизация пользователя {username} с паролем {password}"
+                    )
+                return HttpResponse("Некорректный логин или пароль!")
     template_name = "IIapp/_login.html"
     form = LoginForm()
     context = {
@@ -126,5 +127,4 @@ def page_not_found_view(request, exception):
 
 
 def main(request):
-    # return HttpResponse("Ok")
     return redirect('/home/')

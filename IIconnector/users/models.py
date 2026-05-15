@@ -8,25 +8,21 @@ class CustomUserManager(BaseUserManager):
     """
     Менеджер пользователей
     """
-    use_in_migrations = True
+    use_in_migrations = True    
 
     def _create_user(self, email, phone, password, **extra_fields):
         """
         Создаём и сохраняем пользователя
         """
-        # if not email:
-        #     raise ValueError('The given email must be set')
         email = self.normalize_email(email)
         user = self.model(email=email, phone=phone, **extra_fields)
-        user.set_password(password)
-        print('_create_user', user.password)
+        user.set_password(password)        
         user.save(using=self._db)
         return user
 
     def create_user(self, email, phone, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', False)
-        extra_fields.setdefault('is_superuser', False)
-        print('create_user')
+        extra_fields.setdefault('is_superuser', False)        
         return self._create_user(email, phone, password, **extra_fields)
 
     def create_superuser(self, email, phone, password, **extra_fields):
@@ -36,25 +32,21 @@ class CustomUserManager(BaseUserManager):
         if extra_fields.get('is_staff') is not True:
             raise ValueError('Superuser must have is_staff=True.')
         if extra_fields.get('is_superuser') is not True:
-            raise ValueError('Superuser must have is_superuser=True.')
-        print('create_superuser')
+            raise ValueError('Superuser must have is_superuser=True.')        
         return self._create_user(email, phone, password, **extra_fields)
 
 
 class CustomUser(AbstractUser):
     """
     Кастомная модель пользователя
-    """   
-
-    REQUIRED_FIELDS = ['email']
-    objects = CustomUserManager()
-    email = models.EmailField(_('email address'), unique=True)
-    phone = models.CharField(unique=True, max_length=15, editable=True, verbose_name='Телефон')
-
+    """
+    phone = models.CharField(unique=True, max_length=15, editable=True, verbose_name='Номер телефона')
     USERNAME_FIELD = 'phone'
+    REQUIRED_FIELDS = []
+    objects = CustomUserManager()
 
 
 class Meta:
     verbose_name = 'Пользователь'
     verbose_name_plural = "Список пользователей"
-    ordering = ('email',)
+    ordering = ('phone',)
