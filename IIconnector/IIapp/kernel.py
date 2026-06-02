@@ -32,7 +32,7 @@ def get_date_list():
 
 def get_data(org_id=1, now=datetime.datetime.now().date()):
     if Organizations.objects.filter(id=org_id).exists():
-        date_list = get_date_list(org_id)
+        date_list = get_date_list()
         data_string = ''
         for item in date_list:
             current_Salary_AI = Salary_AI.objects.filter(organizations_id=org_id, year=item[0], month=item[1])
