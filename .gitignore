@@ -4,3 +4,4 @@
 /IIconnector/db.sqlite3
 /.venv/
 /.env
+/log/

@@ -2,6 +2,7 @@ import datetime
 import calendar
 import json
 import IIapp.giga as giga
+from loguru import logger
 from IIapp.models import Organizations, Salary_AI, FOT, AI_requests, AI_promts
 
 
@@ -12,21 +13,21 @@ MONTHS_RU = {
     }
 
 
-def get_date_list(org_id=1, now=datetime.datetime.now().date()):    
-    if Organizations.objects.filter(id=org_id).exists():        
-        # now = datetime.datetime.now().date()        
-        date_list = []
-        date1 = datetime.date(now.year - 1, now.month, 1)
-        date2 = datetime.date(now.year, now.month - 1, calendar.monthrange(now.year, now.month-1)[1])
-        current_date = date1
-        tuple_date = (current_date.year, current_date.month, MONTHS_RU[current_date.month][0], MONTHS_RU[current_date.month][1])
-        date_list.append(tuple_date)
-        for i in range((date2 - date1).days):
-            if (date1 + datetime.timedelta(days=i)).month != current_date.month:
-                current_date = date1 + datetime.timedelta(days=i)
-                tuple_date = (current_date.year, current_date.month, MONTHS_RU[current_date.month][0], MONTHS_RU[current_date.month][1])
-                date_list.append(tuple_date)
-        return date_list
+def get_date_list():
+    now = datetime.datetime.now().date()        
+    date_list = []
+    date1 = datetime.date(now.year - 1, now.month, 1)
+    date2 = datetime.date(now.year, now.month - 1, calendar.monthrange(now.year, now.month-1)[1])
+    current_date = date1
+    logger.info(f"get_date_list: {date1, date2}")
+    tuple_date = (current_date.year, current_date.month, MONTHS_RU[current_date.month][0], MONTHS_RU[current_date.month][1])
+    date_list.append(tuple_date)
+    for i in range((date2 - date1).days):
+        if (date1 + datetime.timedelta(days=i)).month != current_date.month:
+            current_date = date1 + datetime.timedelta(days=i)
+            tuple_date = (current_date.year, current_date.month, MONTHS_RU[current_date.month][0], MONTHS_RU[current_date.month][1])
+            date_list.append(tuple_date)
+    return date_list
 
 
 def get_data(org_id=1, now=datetime.datetime.now().date()):
@@ -36,16 +37,15 @@ def get_data(org_id=1, now=datetime.datetime.now().date()):
         for item in date_list:
             current_Salary_AI = Salary_AI.objects.filter(organizations_id=org_id, year=item[0], month=item[1])
             current_FOT = FOT.objects.filter(organizations_id=org_id, year=item[0], month=item[1])
-            data_string += f' {item[2]} {item[0]} (средняя зарплата по данным Росстата: {current_Salary_AI[0].salary} руб., начисленная зарплата: {current_FOT[0].amount} руб., численность сотрудников: {current_FOT[0].employees}),'            
+            if len(current_FOT):
+                data_string += f' {item[2]} {item[0]} (средняя зарплата по данным Росстата: {current_Salary_AI[0].salary} руб., начисленная зарплата: {current_FOT[0].amount} руб., численность сотрудников: {current_FOT[0].employees}),'            
     return data_string[:-1]
 
 
 def get_analize(org_id=1, now=datetime.datetime.now().date()):
     analize_dict = {}
     if Organizations.objects.filter(id=org_id).exists():
-        # print(datetime.date(now.year, now.month - 1, calendar.monthrange(now.year, now.month-1)[1]))
         current_analize = AI_requests.objects.filter(organizations_id=org_id).filter(date_request__gt=datetime.date(now.year, now.month - 1, calendar.monthrange(now.year, now.month-1)[1]))
-        # print('current_analize = ', len(current_analize))
         if len(current_analize) == 0:
             AI_promt = AI_promts.objects.filter(organizations_id=org_id, name='ANALIZ')
             if len(AI_promt):    

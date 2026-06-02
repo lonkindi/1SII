@@ -13,9 +13,10 @@ import IIapp.oneS as oneS
 import IIapp.giga as giga
 from IIapp.models import FOT, Organizations, AI_promts, Salary_AI, AI_requests
 
+logger.add("log/connector.log")
 
 class MainView(View):
-    def get(self, request, org=1):
+    def get(self, request, org=1):        
         if not request.user.is_authenticated:
             return redirect(reverse(login_view))        
         current_user = request.user
@@ -48,6 +49,7 @@ class MainView(View):
             salary_BU = end_FOT[0].amount
         if len(end_Salary_AI):
             salary_RS = end_Salary_AI[0].salary
+        logger.info(f"date_list = {date_list}")
         start_period = f'{date_list[0][3]}  {date_list[0][0]}'
         end_period = f'{date_list[-1][2]}  {date_list[-1][0]}'
                         
@@ -86,7 +88,7 @@ class MainView(View):
 
 
 def login_view(request):
-    logger.add("log/connector.log")
+    # logger.add("log/connector.log")
     if request.user.is_authenticated:
         logger.info(f"Авторизанный пользователь {request.user} на странице входа")
         return redirect("main")
